@@ -3,281 +3,708 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Smart Teach - Transform Education Together</title>
+    <title>My Smart Teach - Platform Overview</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; background: #f8f9fa; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            overflow: hidden; 
+            background: #ffffff;
+        }
         .slide-container { width: 100vw; height: 100vh; position: relative; display: flex; overflow: hidden; }
-        .slide { min-width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 4rem; transition: transform 0.5s ease; position: absolute; left: 0; opacity: 0; pointer-events: none; }
+        .slide { 
+            min-width: 100vw; 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 5rem 6rem;
+            position: absolute; 
+            left: 0; 
+            opacity: 0; 
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
         .slide.active { opacity: 1; pointer-events: auto; }
-        .bg-primary { background: linear-gradient(135deg, #6B46C1 0%, #805AD5 100%); color: white; }
-        .bg-light { background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); color: #2D3748; }
-        .bg-white { background: white; color: #2D3748; }
-        .bg-accent { background: linear-gradient(135deg, #4299E1 0%, #3182CE 100%); color: white; }
-        h1 { font-size: 3.5rem; font-weight: 700; margin-bottom: 1.5rem; text-align: center; line-height: 1.2; }
-        h2 { font-size: 2.8rem; font-weight: 600; margin-bottom: 2rem; text-align: center; }
-        h3 { font-size: 2rem; font-weight: 600; margin-bottom: 1rem; }
-        p { font-size: 1.4rem; line-height: 1.8; margin-bottom: 1rem; text-align: center; max-width: 900px; }
-        .subtitle { font-size: 1.8rem; opacity: 0.9; margin-bottom: 3rem; text-align: center; }
-        .logo { font-size: 2.5rem; font-weight: 700; color: #6B46C1; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
-        .logo-white { color: white; }
-        .star { color: #4299E1; font-size: 2rem; }
-        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1200px; width: 100%; margin-top: 2rem; }
-        .feature-box { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
-        .feature-box h3 { color: #6B46C1; font-size: 1.5rem; margin-bottom: 1rem; }
-        .feature-box p { font-size: 1.1rem; color: #4A5568; }
-        .icon { font-size: 3rem; margin-bottom: 1rem; }
-        .workflow-container { display: flex; align-items: center; gap: 2rem; max-width: 1100px; margin-top: 2rem; }
-        .workflow-step { flex: 1; background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; position: relative; }
-        .workflow-step h3 { color: #6B46C1; font-size: 1.8rem; margin-bottom: 1rem; }
-        .workflow-step p { font-size: 1.1rem; color: #4A5568; }
-        .arrow { font-size: 2.5rem; color: #6B46C1; }
-        .stat-box { background: rgba(255,255,255,0.2); padding: 2rem 3rem; border-radius: 12px; margin: 1rem; backdrop-filter: blur(10px); }
-        .stat-number { font-size: 4rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .stat-label { font-size: 1.3rem; opacity: 0.95; }
-        .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 1000px; width: 100%; margin-top: 2rem; }
-        .comparison-box { padding: 2rem; border-radius: 12px; text-align: center; }
-        .comparison-box.bad { background: #FED7D7; color: #742A2A; }
-        .comparison-box.good { background: #C6F6D5; color: #22543D; }
-        .comparison-box h3 { font-size: 1.8rem; margin-bottom: 1.5rem; }
-        .comparison-box ul { list-style: none; text-align: left; font-size: 1.2rem; }
-        .comparison-box li { margin-bottom: 0.8rem; padding-left: 1.5rem; position: relative; }
-        .comparison-box.bad li:before { content: "✗"; position: absolute; left: 0; color: #E53E3E; }
-        .comparison-box.good li:before { content: "✓"; position: absolute; left: 0; color: #38A169; }
-        .benefit-list { list-style: none; max-width: 800px; text-align: left; font-size: 1.3rem; }
-        .benefit-list li { margin-bottom: 1.5rem; padding-left: 2rem; position: relative; }
-        .benefit-list li:before { content: "✓"; position: absolute; left: 0; color: #48BB78; font-size: 1.5rem; font-weight: bold; }
-        .cta-box { background: white; color: #2D3748; padding: 3rem; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); max-width: 700px; margin-top: 2rem; }
-        .cta-box h3 { color: #6B46C1; margin-bottom: 1.5rem; }
-        .cta-box ul { list-style: none; text-align: left; font-size: 1.2rem; margin-bottom: 2rem; }
-        .cta-box li { margin-bottom: 1rem; padding-left: 1.5rem; position: relative; }
-        .cta-box li:before { content: "★"; position: absolute; left: 0; color: #4299E1; }
-        .navigation { position: fixed; bottom: 2rem; right: 2rem; display: flex; gap: 1rem; z-index: 1000; }
-        .nav-btn { background: #6B46C1; color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; cursor: pointer; font-size: 1.1rem; transition: background 0.3s; }
-        .nav-btn:hover { background: #553C9A; }
-        .nav-btn:disabled { background: #CBD5E0; cursor: not-allowed; }
-        .slide-counter { position: fixed; bottom: 2rem; left: 2rem; background: rgba(107, 70, 193, 0.9); color: white; padding: 0.8rem 1.5rem; border-radius: 8px; font-size: 1.1rem; z-index: 1000; }
-        .emphasis-white { color: white; font-weight: 600; text-decoration: underline; }
-        @media (max-width: 768px) {
+        
+        /* Professional color palette */
+        .bg-dark { background: #1a1a2e; color: #ffffff; }
+        .bg-white { background: #ffffff; color: #1a1a2e; }
+        .bg-light { background: #f8f9fa; color: #1a1a2e; }
+        .bg-primary { background: linear-gradient(135deg, #170a38 0%, #553C9A 100%); color: white; }
+        .bg-accent { background: linear-gradient(45deg, #170a38 0%, #553C9A 100%); color: white; }
+        
+        /* Typography */
+        h1 { 
+            font-size: 3.5rem; 
+            font-weight: 700; 
+            margin-bottom: 1.5rem; 
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        h2 { 
+            font-size: 2.5rem; 
+            font-weight: 600; 
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+        h3 { 
+            font-size: 1.5rem; 
+            font-weight: 600; 
+            margin-bottom: 0.75rem;
+        }
+        p { 
+            font-size: 1.25rem; 
+            line-height: 1.7; 
+            margin-bottom: 1rem;
+        }
+        .tagline {
+            font-size: 1.5rem;
+            opacity: 0.85;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+        
+        /* Logo */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0rem;
+        }
+        .logo-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #6B46C1;
+        }
+        .logo-icon {
+            font-size: 2.5rem;
+            color: #3182CE;
+        }
+        
+        /* Layouts */
+        .content-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 1000px;
+        }
+        .content-left {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+            max-width: 1100px;
+            width: 100%;
+        }
+        
+        /* Stats */
+        .stats-row {
+            display: flex;
+            gap: 3rem;
+            margin: 3rem 0;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem 2.5rem;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Problem cards */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            width: 100%;
+            margin-top: 2rem;
+        }
+        .problem-card {
+            background: #ffffff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #DC2626;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .problem-card h3 {
+            color: #DC2626;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        .problem-card p {
+            font-size: 1rem;
+            color: #4A5568;
+            margin: 0;
+        }
+        
+        /* Workflow */
+        .workflow {
+            display: flex;
+            align-items: stretch;
+            gap: 1.5rem;
+            width: 100%;
+            margin-top: 2rem;
+        }
+        .workflow-card {
+            flex: 1;
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .workflow-number {
+            position: absolute;
+            top: -15px;
+            left: 2rem;
+            width: 45px;
+            height: 45px;
+            background: #6B46C1;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            box-shadow: 0 4px 8px rgba(107,70,193,0.3);
+        }
+        .workflow-icon {
+            font-size: 2.5rem;
+            margin: 1.5rem 0 1rem 0;
+        }
+        .workflow-card h3 {
+            color: #6B46C1;
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .workflow-card p {
+            font-size: 1rem;
+            color: #4A5568;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+        .workflow-features {
+            list-style: none;
+            margin-top: 1rem;
+            padding: 0;
+        }
+        .workflow-features li {
+            font-size: 0.95rem;
+            color: #2D3748;
+            padding: 0.4rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .workflow-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #48BB78;
+            font-weight: bold;
+        }
+        
+        /* Features list */
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            width: 100%;
+            margin-top: 2rem;
+        }
+        .feature-item {
+            display: flex;
+            gap: 1rem;
+            background: #ffffff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .feature-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+        .feature-content h3 {
+            color: #2D3748;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        .feature-content p {
+            font-size: 1rem;
+            color: #4A5568;
+            margin: 0;
+        }
+        
+        /* Impact metrics */
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            width: 100%;
+            margin-top: 3rem;
+        }
+        .impact-card {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255,255,255,0.95);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .impact-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .impact-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #6B46C1;
+            margin-bottom: 0.5rem;
+        }
+        .impact-label {
+            font-size: 1rem;
+            color: #2D3748;
+            font-weight: 500;
+        }
+        
+        /* Value propositions */
+        .value-props {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            width: 100%;
+            margin-top: 2rem;
+        }
+        .value-card {
+            background: #ffffff;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 5px solid #6B46C1;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .value-card h3 {
+            color: #6B46C1;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .value-card p {
+            font-size: 1.1rem;
+            color: #2D3748;
+            margin: 0;
+        }
+        
+        /* Navigation */
+        .navigation {
+            position: fixed;
+            bottom: 2.5rem;
+            right: 2.5rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+        .nav-btn {
+            background: #6B46C1;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(107,70,193,0.3);
+        }
+        .nav-btn:hover {
+            background: #553C9A;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(107,70,193,0.4);
+        }
+        .nav-btn:disabled {
+            background: #CBD5E0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .slide-counter {
+            position: fixed;
+            bottom: 2.5rem;
+            left: 2.5rem;
+            background: rgba(26, 26, 46, 0.9);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            z-index: 1000;
+        }
+        
+        /* Emphasis */
+        .highlight {
+            color: #6B46C1;
+            font-weight: 600;
+        }
+        .highlight-white {
+            color: #ffffff;
+            font-weight: 600;
+            background: rgba(255,255,255,0.15);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+        
+        @media (max-width: 1024px) {
+            .slide { padding: 3rem 4rem; }
             h1 { font-size: 2.5rem; }
             h2 { font-size: 2rem; }
-            p { font-size: 1.2rem; }
-            .features-grid { grid-template-columns: 1fr; }
-            .workflow-container { flex-direction: column; }
-            .comparison-grid { grid-template-columns: 1fr; }
+            .problem-grid, .features-list, .impact-grid { grid-template-columns: 1fr; }
+            .workflow { flex-direction: column; }
         }
     </style>
 </head>
 <body>
     <div class="slide-container">
+        
+        <!-- Slide 1: Title -->
         <div class="slide active bg-primary">
-            <div class="logo logo-white"><span>✦ My</span><span class="star"></span><span>Smart Teach</span></div>
-            <h1>The Joy of Teaching with<br/>Your Smart AI Assistant</h1>
-            <p class="subtitle">The all-in-one platform that automates your assessment<br/>and unifies your entire teaching workflow</p>
-            <div style="margin-top: 3rem; font-size: 1.2rem; opacity: 0.9;">
-                <p>Designed for UK Educators | Built on Research | Patent-Pending Innovation</p>
-            </div>
-        </div>
-
-        <div class="slide bg-light">
-            <h2>The Challenge UK Teachers Face</h2>
-            <div class="features-grid">
-                <div class="feature-box"><div class="icon">😰</div><h3>Overwhelming Workload</h3><p>Teachers spend 10+ hours per week on marking alone</p></div>
-                <div class="feature-box"><div class="icon">📝</div><h3>Repetitive Tasks</h3><p>Endless marking, grading, and administrative burden</p></div>
-                <div class="feature-box"><div class="icon">⏰</div><h3>Time Pressure</h3><p>Less time for actual teaching and student interaction</p></div>
-                <div class="feature-box"><div class="icon">❌</div><h3>Inconsistent Feedback</h3><p>Variation in marking quality when exhausted</p></div>
-                <div class="feature-box"><div class="icon">📊</div><h3>Limited Insights</h3><p>Hard to track learning gaps across all students</p></div>
-                <div class="feature-box"><div class="icon">🔄</div><h3>Generic AI Tools</h3><p>Promise much but deliver little - unreliable and insecure</p></div>
-            </div>
-        </div>
-
-        <div class="slide bg-white">
-            <h2>Why Generic AI Tools Fail Teachers</h2>
-            <div class="comparison-grid">
-                <div class="comparison-box bad">
-                    <h3>❌ Generic AI (ChatGPT, etc.)</h3>
-                    <ul>
-                        <li>Inconsistent results every time</li>
-                        <li>Can't save or organize your work</li>
-                        <li>Not designed for UK curriculum</li>
-                        <li>Data security concerns</li>
-                        <li>No integration with school systems</li>
-                        <li>Requires constant prompting</li>
-                        <li>No assessment marking capability</li>
-                        <li>More confusion than clarity</li>
-                    </ul>
+            <div class="content-center">
+                <div class="logo-container " style="margin-bottom:2rem">
+                    <span class="logo-text" style="color: white;"> ✦ My</span>
+                    <span class="logo-icon"></span>
+                    <span class="logo-text" style="color: white;">Smart Teach</span>
                 </div>
-                <div class="comparison-box good">
-                    <h3>✓ My Smart Teach</h3>
-                    <ul>
-                        <li>Consistent, accurate results</li>
-                        <li>Everything saved & organized</li>
-                        <li>Built for UK National Curriculum</li>
-                        <li>Fully GDPR compliant & secure</li>
-                        <li>Integrates with school systems</li>
-                        <li>Intuitive workflow</li>
-                        <li>AI-powered assessment marking</li>
-                        <li>Clear, actionable insights</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="slide bg-primary">
-            <h2>The Connected Classroom</h2>
-            <p class="subtitle">When preparation flows seamlessly into assessment, and assessment data intelligently informs your next lesson, the cycle is complete.</p>
-            <div style="display: flex; gap: 3rem; margin-top: 2rem;">
-                <div class="stat-box"><div class="stat-number">80%+</div><div class="stat-label">Time Saved on Marking</div></div>
-                <div class="stat-box"><div class="stat-number">100%</div><div class="stat-label">Consistent Feedback</div></div>
-                <div class="stat-box"><div class="stat-number">UK</div><div class="stat-label">Curriculum Aligned</div></div>
-            </div>
-            <p style="margin-top: 3rem; font-size: 1.3rem;">This is the future of teaching: connected, efficient, and joyful.</p>
-        </div>
-
-        <div class="slide bg-light">
-            <h2>Your Effortless 3-Step Teaching Workflow</h2>
-            <div class="workflow-container">
-                <div class="workflow-step"><div class="icon">📚</div><h3>1. Prepare</h3><p>Turn hours of prep into minutes. Create lesson materials from custom questions to presentation slides, tailored to UK curriculum.</p></div>
-                <div class="arrow">→</div>
-                <div class="workflow-step"><div class="icon">✅</div><h3>2. Assess</h3><p>Upload student work and let AI mark it accurately. What takes hours now takes minutes, with consistent, fair feedback.</p></div>
-                <div class="arrow">→</div>
-                <div class="workflow-step"><div class="icon">📊</div><h3>3. Analyse</h3><p>Gain deep insights into every learner. Track individual progress, identify learning gaps, and provide targeted support.</p></div>
-            </div>
-        </div>
-
-        <div class="slide bg-primary">
-            <h2>Core Innovation: Assessment Module</h2>
-            <p class="subtitle">First in UK Education - Save 80%+ of Your Marking Time</p>
-            <ul class="benefit-list" style="color: white;">
-                <li><strong>Upload & Mark:</strong> Simply upload exam papers or homework - AI marks them accurately and consistently</li>
-                <li><strong>Detailed Feedback:</strong> Not generic comments. Specific feedback for each student, each question</li>
-                <li><strong>Always in Control:</strong> You review and approve final grades - the teacher has the final say</li>
-                <li><strong>Everything Saved:</strong> All marking, feedback, analytics permanently organized by class and student</li>
-                <li><strong>UK Standards:</strong> Aligned with mark schemes, rubrics, and UK curriculum requirements</li>
-            </ul>
-            <div class="stat-box" style="margin-top: 2rem;"><div class="stat-label">From <span class="emphasis-white">10+ hours of marking</span> to <span class="emphasis-white">minutes</span></div></div>
-        </div>
-
-        <div class="slide bg-white">
-            <h2>AI Tools: Intelligent Lesson Support</h2>
-            <div class="features-grid">
-                <div class="feature-box"><div class="icon">❓</div><h3>Question Generator</h3><p>Create quizzes and checks for understanding based on your students' actual learning progress</p></div>
-                <div class="feature-box"><div class="icon">🎨</div><h3>Slide Generator</h3><p>Produce structured presentation outlines instantly, aligned with UK curriculum</p></div>
-                <div class="feature-box"><div class="icon">📋</div><h3>Rubric Generator</h3><p>Build detailed grading rubrics for assignments, perfectly matched to your requirements</p></div>
-            </div>
-            <p style="margin-top: 2rem; color: #4A5568;">All generated materials are UK curriculum-aligned and fully controlled by you</p>
-        </div>
-
-        <div class="slide bg-light">
-            <h2>Analysis: Deep Insights for Every Learner</h2>
-            <p class="subtitle">Go beyond simple grades - understand every learner deeply</p>
-            <div class="features-grid">
-                <div class="feature-box"><div class="icon">👁️</div><h3>Identify Learning Gaps</h3><p>See exactly where each student struggles and where they excel</p></div>
-                <div class="feature-box"><div class="icon">📈</div><h3>Track Progress</h3><p>Monitor individual and class performance over time with clear visualizations</p></div>
-                <div class="feature-box"><div class="icon">🎯</div><h3>Targeted Support</h3><p>Provide evidence of progress for departmental reviews and Ofsted</p></div>
-            </div>
-            <div style="margin-top: 2rem; background: white; padding: 2rem; border-radius: 12px; max-width: 800px;">
-                <p style="color: #6B46C1; font-size: 1.4rem; font-weight: 600;">"Easily track individual progress, celebrate growth, and discover who needs extra support"</p>
-            </div>
-        </div>
-
-        <div class="slide bg-primary">
-            <h2>What Makes My Smart Teach Different</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 1100px; margin-top: 2rem;">
-                <div class="stat-box"><div class="icon" style="font-size: 3rem; margin-bottom: 1rem;">🔬</div><h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Research-Backed</h3><p style="font-size: 1.1rem;">Built on comprehensive research with 600+ UK institutions. University of Birmingham validated.</p></div>
-                <div class="stat-box"><div class="icon" style="font-size: 3rem; margin-bottom: 1rem;">⭐</div><h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Patent-Pending Innovation</h3><p style="font-size: 1.1rem;">"Reflective Consensus" AI - multiple AI agents collaborate for the most accurate results</p></div>
-                <div class="stat-box"><div class="icon" style="font-size: 3rem; margin-bottom: 1rem;">🇬🇧</div><h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Built for UK Teachers</h3><p style="font-size: 1.1rem;">Not generic AI. Designed specifically for UK curriculum, by people who understand UK education.</p></div>
-                <div class="stat-box"><div class="icon" style="font-size: 3rem; margin-bottom: 1rem;">🔒</div><h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Completely Secure</h3><p style="font-size: 1.1rem;">Your own private instance. Full GDPR compliance. Your data never leaves your control.</p></div>
-            </div>
-        </div>
-
-        <div class="slide bg-white">
-            <h2>Built by Educators & Researchers</h2>
-            <p class="subtitle">Combining Classroom Experience with Academic Excellence</p>
-            <div class="features-grid">
-                <div class="feature-box" style="background: linear-gradient(135deg, #F0E7FF 0%, #E9D8FD 100%);"><div class="icon">👩‍🏫</div><h3>Dr. Sharzad Madjlesi</h3><p><strong>CEO & Co-Founder</strong><br/>PhD Educational Technology<br/>Former Physics & Maths Teacher<br/>University of Nottingham</p></div>
-                <div class="feature-box" style="background: linear-gradient(135deg, #F0E7FF 0%, #E9D8FD 100%);"><div class="icon">🔬</div><h3>Dr. Anand Mandal</h3><p><strong>Academic Co-Founder</strong><br/>Associate Professor of AI<br/>University of Birmingham<br/>AI & Data Analysis Expert</p></div>
-                <div class="feature-box" style="background: linear-gradient(135deg, #F0E7FF 0%, #E9D8FD 100%);"><div class="icon">💻</div><h3>Mr. Mehran Gharooni</h3><p><strong>AI Technical Architect</strong><br/>Transforms vision into reality<br/>Secure, scalable platform<br/>Teacher-friendly delivery</p></div>
-            </div>
-            <p style="margin-top: 2rem; color: #6B46C1; font-size: 1.3rem; font-weight: 600;">We've stood where your teachers stand. We understand the challenges deeply.</p>
-        </div>
-
-        <div class="slide bg-light">
-            <h2>Security & Privacy: Built-In, Not Bolted On</h2>
-            <div class="features-grid">
-                <div class="feature-box"><div class="icon">🔐</div><h3>GDPR Compliant</h3><p>Full compliance with UK data protection regulations from day one</p></div>
-                <div class="feature-box"><div class="icon">🏛️</div><h3>Your Private Instance</h3><p>Your school/trust can have its own completely private, customized instance</p></div>
-                <div class="feature-box"><div class="icon">🔒</div><h3>Data Never Leaves</h3><p>Unlike generic AI tools, your data stays under your control, never used for training</p></div>
-                <div class="feature-box"><div class="icon">🤝</div><h3>No Consent Needed</h3><p>Your school's data is protected with robust security - never used without your permission</p></div>
-                <div class="feature-box"><div class="icon">🔗</div><h3>System Integration</h3><p>Integrates with your existing school systems securely if needed</p></div>
-                <div class="feature-box"><div class="icon">✅</div><h3>Ethical by Design</h3><p>Committed to the highest ethical standards in everything we build</p></div>
-            </div>
-        </div>
-
-        <div class="slide bg-primary">
-            <h2>Exclusive Founding Partner Program</h2>
-            <p class="subtitle">Limited to 20 Forward-Thinking Schools</p>
-            <div class="cta-box">
-                <h3>🌟 Your Benefits as a Founding Partner</h3>
-                <ul>
-                    <li><strong>Completely Free Access:</strong> January - July 2026</li>
-                    <li><strong>Full Platform:</strong> Assessment, AI Tools, and Analysis modules</li>
-                    <li><strong>Dedicated Support:</strong> On-boarding, training, and direct technical support</li>
-                    <li><strong>Shape the Future:</strong> Your feedback directly influences development</li>
-                    <li><strong>Permanent 50% Discount:</strong> If you continue after the pilot</li>
-                    <li><strong>No Risk:</strong> No contracts, no obligations - if it doesn't transform your workload, walk away</li>
-                </ul>
-                <p style="color: #6B46C1; font-size: 1.2rem; font-weight: 600; margin-top: 1rem;">Application Deadline: December 6th, 2025</p>
-            </div>
-        </div>
-
-        <div class="slide bg-primary">
-            <h2>Your Trust's Opportunity</h2>
-            <p class="subtitle">Be a Pioneer in Educational Innovation</p>
-            <div style="display: flex; flex-direction: column; gap: 2rem; max-width: 900px; margin-top: 2rem;">
-                <div class="stat-box"><h3 style="font-size: 1.8rem; margin-bottom: 1rem;">🚀 First-Mover Advantage</h3><p style="font-size: 1.2rem;">Be among the first 20 schools to shape this platform and establish your Trust as an innovation leader</p></div>
-                <div class="stat-box"><h3 style="font-size: 1.8rem; margin-bottom: 1rem;">💰 Significant Savings</h3><p style="font-size: 1.2rem;">Save thousands of teacher hours annually - that's real cost savings and better teacher retention</p></div>
-                <div class="stat-box"><h3 style="font-size: 1.8rem; margin-bottom: 1rem;">📈 Better Student Outcomes</h3><p style="font-size: 1.2rem;">More time for actual teaching means deeper learning and better results for every student</p></div>
-                <div class="stat-box"><h3 style="font-size: 1.8rem; margin-bottom: 1rem;">🤝 True Partnership</h3><p style="font-size: 1.2rem;">Work directly with our team to customize the platform for your Trust's specific needs</p></div>
-            </div>
-        </div>
-
-        <div class="slide bg-white">
-            <h2>Let's Transform Education Together</h2>
-            <p class="subtitle">Your teachers deserve to love teaching again</p>
-            <div style="display: flex; flex-direction: column; gap: 2rem; align-items: center; margin-top: 2rem;">
-                <div style="background: linear-gradient(135deg, #6B46C1 0%, #805AD5 100%); color: white; padding: 3rem; border-radius: 12px; max-width: 700px; text-align: center;">
-                    <h3 style="font-size: 2rem; margin-bottom: 2rem; color: white;">Next Steps</h3>
-                    <div style="text-align: left; font-size: 1.3rem; line-height: 2;">
-                        <p><strong>1.</strong> Today: Explore the platform together</p>
-                        <p><strong>2.</strong> This Week: Schedule a demo for your leadership team</p>
-                        <p><strong>3.</strong> By Dec 6: Join the Founding Partner Program</p>
-                        <p><strong>4.</strong> January 2026: Begin transforming your Trust</p>
+                <h2 style="margin-bottom:2rem">AI-Powered Assessment & Teaching Platform</h2>
+                <h3 class="tagline">The Complete Solution to Transform Teacher Workload,<br/>Enhance Student Learning, and Revolutionise UK Education</h3>
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-number">80%</div>
+                        <div class="stat-label">Time Saved</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Consistent</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">UK</div>
+                        <div class="stat-label">Curriculum</div>
                     </div>
                 </div>
-                <div style="margin-top: 2rem;">
-                    <div class="logo" style="font-size: 3rem;"><span> ✦ My</span><span class="star"></span><span>Smart Teach</span></div>
-                    <p style="font-size: 1.3rem; color: #4A5568; margin-top: 1rem;">www.mysmartteach.com | info@mysmartteach.com | +44 7917 990 905</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: The Critical Problem -->
+        <div class="slide bg-accent">
+            <div class="content-center">
+                <h2>The Teacher Workload Crisis</h2>
+                <p style="font-size: 1.3rem; color: light; margin-bottom: 2rem;">UK teachers are leaving the profession at unprecedented rates. The primary driver? Unsustainable workload.</p>
+                <div class="problem-grid">
+                    <div class="problem-card">
+                        <h3>⏰ 10+ Hours Weekly on Marking</h3>
+                        <p>Teachers spend more time marking than teaching, leading to burnout and reduced job satisfaction.</p>
+                    </div>
+                    <div class="problem-card">
+                        <h3>📉 Teacher Retention Crisis</h3>
+                        <p>30% of teachers leave within 5 years. Workload is cited as the primary reason.</p>
+                    </div>
+                    <div class="problem-card">
+                        <h3>❌ Inconsistent Feedback</h3>
+                        <p>Quality of marking varies when teachers are exhausted, impacting student learning.</p>
+                    </div>
+                    <div class="problem-card">
+                        <h3>📊 Limited Analytics</h3>
+                        <p>Difficult to track patterns, identify learning gaps, and provide targeted interventions at scale.</p>
+                    </div>
+                </div>
+                <div style="margin-top: 3rem; padding: 2rem; background: #FEF2F2; border-left: 4px solid #DC2626; border-radius: 6px;">
+                    <p style="font-size: 1.3rem; color: #991B1B; font-weight: 600; margin: 0;">
+                        "Generic AI tools promise solutions but create more problems: inconsistent results, no data persistence, security concerns, and no curriculum alignment."
+                    </p>
                 </div>
             </div>
         </div>
 
+        <!-- Slide 3: How My Smart Teach Works -->
         <div class="slide bg-primary">
-            <h1>Thank You</h1>
-            <p class="subtitle" style="font-size: 2rem; margin-bottom: 3rem;">Let's discuss how My Smart Teach<br/>can transform your Trust</p>
-            <div style="background: rgba(255,255,255,0.2); padding: 2.5rem; border-radius: 12px; backdrop-filter: blur(10px); max-width: 700px;">
-                <p style="font-size: 1.4rem; margin-bottom: 1.5rem;"><strong>Dr. Sharzad Madjlesi</strong></p>
-                <p style="font-size: 1.2rem;">CEO & Founder, My Smart Teach</p>
-                <p style="font-size: 1.2rem;">PhD Educational Technology</p>
-                <p style="font-size: 1.2rem; margin-top: 2rem;">📧 info@mysmartteach.com</p>
-                <p style="font-size: 1.2rem;">📱 +44 7917 990 905</p>
-                <p style="font-size: 1.2rem;">🌐 www.mysmartteach.com</p>
+            <div class="content-center">
+                <h2>How My Smart Teach Works</h2>
+                <p style="font-size: 1.3rem; color: light; margin-bottom: 1rem;">A unified platform that connects preparation, assessment, and analysis into one seamless workflow.</p>
+                <div class="workflow">
+                    <div class="workflow-card">
+                        <div class="workflow-number">1</div>
+                        <div class="workflow-icon">📚</div>
+                        <h3>Prepare</h3>
+                        <p>Create lesson materials in minutes, not hours.</p>
+                        <ul class="workflow-features">
+                            <li>Generate custom questions aligned to curriculum</li>
+                            <li>Create presentation slides instantly</li>
+                            <li>Build detailed marking rubrics</li>
+                            <li>All materials UK curriculum-compliant</li>
+                        </ul>
+                    </div>
+                    <div class="workflow-card">
+                        <div class="workflow-number">2</div>
+                        <div class="workflow-icon">✅</div>
+                        <h3>Assess</h3>
+                        <p>Upload student work and receive AI-powered marking.</p>
+                        <ul class="workflow-features">
+                            <li>Upload exam papers or homework</li>
+                            <li>AI marks accurately using your mark scheme</li>
+                            <li>Detailed feedback for each question</li>
+                            <li>Teacher reviews and approves grades</li>
+                        </ul>
+                    </div>
+                    <div class="workflow-card">
+                        <div class="workflow-number">3</div>
+                        <div class="workflow-icon">📊</div>
+                        <h3>Analyse</h3>
+                        <p>Gain actionable insights into every student.</p>
+                        <ul class="workflow-features">
+                            <li>Track individual student progress</li>
+                            <li>Identify learning gaps across classes</li>
+                            <li>Evidence for departmental reviews</li>
+                            <li>Data-driven intervention strategies</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <p style="margin-top: 3rem; font-size: 1.3rem; opacity: 0.95;">Where the endless and disconnected tasks of teaching become a single, intelligent workflow</p>
         </div>
+
+        <!-- Slide 4: Assessment Module - The Core Innovation -->
+        <div class="slide bg-accent">
+            <div class="content-center">
+                <h2>Assessment Module: The Core Innovation</h2>
+                <p class="tagline">First in UK education to automate marking with <span class="highlight-white">patent-pending AI technology</span></p>
+                <div class="features-list" style="margin-top: 3rem;">
+                    <div class="feature-item" style="background: rgba(255,255,255,0.95);">
+                        <div class="feature-icon">⚡</div>
+                        <div class="feature-content">
+                            <h3>Minutes, Not Hours</h3>
+                            <p>What takes 10+ hours now takes minutes. Upload assignments, receive accurate marking instantly.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item" style="background: rgba(255,255,255,0.95);">
+                        <div class="feature-icon">🎯</div>
+                        <div class="feature-content">
+                            <h3>Detailed, Specific Feedback</h3>
+                            <p>Not generic comments. Individual feedback for each student, each question, every time.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item" style="background: rgba(255,255,255,0.95);">
+                        <div class="feature-icon"  style="    color: black;">✓</div>
+                        <div class="feature-content">
+                            <h3>Teacher Always in Control</h3>
+                            <p>Review AI suggestions, adjust grades, add comments. You have the final say.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item" style="background: rgba(255,255,255,0.95);">
+                        <div class="feature-icon">💾</div>
+                        <div class="feature-content">
+                            <h3>Everything Saved & Organized</h3>
+                            <p>All marking, feedback, and analytics permanently saved by class and student.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card" style="margin-top: 3rem; padding: 2.5rem;">
+                    <p style="font-size: 1.5rem; margin: 0;">"Reflective Consensus" AI: Multiple agents collaborate to deliver the most accurate assessment results</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Why Schools Need This NOW -->
+        <div class="slide bg-primary">
+            <div class="content-center">
+                <h2>Why Schools Need My Smart Teach</h2>
+                <div class="value-props">
+                    <div class="value-card">
+                        <h3>💰 Operational Efficiency & Cost Savings</h3>
+                        <p>Save thousands of teacher hours annually. Reduce administrative burden by 80%+. Better resource allocation. Improved teacher retention means lower recruitment costs.</p>
+                    </div>
+                    <div class="value-card">
+                        <h3>👥 Teacher Wellbeing & Retention</h3>
+                        <p>Address the primary cause of teacher burnout: workload. Give teachers time back for what matters—actual teaching. Improve job satisfaction and reduce turnover.</p>
+                    </div>
+                    <div class="value-card">
+                        <h3>📈 Enhanced Student Outcomes</h3>
+                        <p>More time for personalized instruction. Data-driven interventions based on actual learning gaps. Consistent, detailed feedback accelerates learning. Evidence of progress for Ofsted.</p>
+                    </div>
+                    <div class="value-card">
+                        <h3>🛡️ GDPR-Compliant & Secure</h3>
+                        <p>Unlike generic AI tools, your data stays under your control. Private school instance. Full UK data protection compliance. Ethical AI designed specifically for education.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Measurable Impact -->
+        <div class="slide bg-accent">
+            <div class="content-center">
+                <h2>Measurable Impact on Your School</h2>
+                <p style="font-size: 1.3rem; color: light; margin-bottom: 1rem;">Based on University of Birmingham research and pilot testing</p>
+                <div class="impact-grid">
+                    <div class="impact-card">
+                        <div class="impact-icon">⏱️</div>
+                        <div class="impact-number">80%+</div>
+                        <div class="impact-label">Time saved on marking</div>
+                        <p style="font-size: 0.95rem; color: #4A5568; margin-top: 1rem;">From 10+ hours per week to minutes</p>
+                    </div>
+                    <div class="impact-card">
+                        <div class="impact-icon" style="    color: black;">✓</div>
+                        <div class="impact-number">100%</div>
+                        <div class="impact-label">Consistency in feedback</div>
+                        <p style="font-size: 0.95rem; color: #4A5568; margin-top: 1rem;">No variation due to fatigue or time pressure</p>
+                    </div>
+                    <div class="impact-card">
+                        <div class="impact-icon">👁️</div>
+                        <div class="impact-number">360°</div>
+                        <div class="impact-label">Student insights</div>
+                        <p style="font-size: 0.95rem; color: #4A5568; margin-top: 1rem;">Complete visibility into learning progress</p>
+                    </div>
+                    <div class="impact-card">
+                        <div class="impact-icon"style="    color: black;">🇬🇧</div>
+                        <div class="impact-number">100%</div>
+                        <div class="impact-label">UK curriculum aligned</div>
+                        <p style="font-size: 0.95rem; color: #4A5568; margin-top: 1rem;">Built specifically for UK education standards</p>
+                    </div>
+                    <div class="impact-card">
+                        <div class="impact-icon">🔒</div>
+                        <div class="impact-number">GDPR</div>
+                        <div class="impact-label">Fully compliant</div>
+                        <p style="font-size: 0.95rem; color: #4A5568; margin-top: 1rem;">Your data, your control, always secure</p>
+                    </div>
+                    <div class="impact-card">
+                        <div class="impact-icon">🎯</div>
+                        <div class="impact-number">24/7</div>
+                        <div class="impact-label">AI Teaching Assistant</div>
+                        <p style="font-size: 0.95rem; color: #4A5568; margin-top: 1rem;">Always available to support your teachers</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: What Makes Us Different -->
+        <div class="slide bg-primary">
+            <div class="content-center">
+                <h2>What Sets My Smart Teach Apart</h2>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">🔬</div>
+                        <div class="feature-content">
+                            <h3>Research-Validated</h3>
+                            <p>Built on comprehensive research with 600+ UK institutions. University of Birmingham academic validation.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">⭐</div>
+                        <div class="feature-content">
+                            <h3>Patent-Pending Innovation</h3>
+                            <p>"Reflective Consensus" technology: Multiple AI agents collaborate for unmatched accuracy.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🇬🇧</div>
+                        <div class="feature-content">
+                            <h3>Purpose-Built for UK Education</h3>
+                            <p>Not adapted generic AI. Designed from the ground up for UK curriculum and teaching standards.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">👨‍🏫</div>
+                        <div class="feature-content">
+                            <h3>Created by Educators</h3>
+                            <p>Built by people who've stood in your teachers' shoes. We understand the challenges intimately.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🔒</div>
+                        <div class="feature-content">
+                            <h3>Security by Design</h3>
+                            <p>Private school instances. Full GDPR compliance. Your data never leaves your control or trains other AI.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🔗</div>
+                        <div class="feature-content">
+                            <h3>Seamless Integration</h3>
+                            <p>Works with your existing school systems. MIS integration available. No disruption to current workflows.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Founding Partner Program -->
+        <div class="slide bg-accent">
+            <div class="content-center">
+                <h2>Exclusive Founding Partner Program</h2>
+                <p class="tagline">Limited to 20 forward-thinking UK schools</p>
+                <div class="stats-row" style="margin: 3rem 0;">
+                    <div class="stat-card" style="border: 2px solid rgba(255,255,255,0.3);">
+                        <h3 style="color: white; font-size: 1.3rem; margin-bottom: 1rem;">✓ Free Access</h3>
+                        <p style="margin: 0; font-size: 1.1rem;">January - July 2026<br/>Complete platform access</p>
+                    </div>
+                    <div class="stat-card" style="border: 2px solid rgba(255,255,255,0.3);">
+                        <h3 style="color: white; font-size: 1.3rem; margin-bottom: 1rem;">✓ Shape the Future</h3>
+                        <p style="margin: 0; font-size: 1.1rem;">Direct input on features<br/>Priority support</p>
+                    </div>
+                    <div class="stat-card" style="border: 2px solid rgba(255,255,255,0.3);">
+                        <h3 style="color: white; font-size: 1.3rem; margin-bottom: 1rem;">✓ 50% Lifetime Discount</h3>
+                        <p style="margin: 0; font-size: 1.1rem;">Permanent discount<br/>if you continue</p>
+                    </div>
+                </div>
+                <div style="background: rgba(255,255,255,0.15); padding: 2rem; border-radius: 8px; backdrop-filter: blur(10px); max-width: 800px;">
+                    <p style="font-size: 1.4rem; font-weight: 600; margin-bottom: 1rem;">No risk. No contracts. No obligations.</p>
+                    <p style="font-size: 1.2rem; margin: 0;">If it doesn't transform your teachers' workload, walk away having lost nothing.</p>
+                </div>
+                <p style="margin-top: 2rem; font-size: 1.3rem; font-weight: 600;">Application Deadline: <span class="highlight-white">December 6th, 2025</span></p>
+            </div>
+        </div>
+
+        <!-- Slide 9: Call to Action -->
+        <div class="slide bg-primary">
+            <div class="content-center">
+                <div class="logo-container">
+                    <span class="logo-text" style="color: white;">✦ My</span>
+                    <span class="logo-icon"></span>
+                    <span class="logo-text" style="color: white;">Smart Teach</span>
+                </div>
+                <h2 style="margin-top: 2 rem; margin-bottom:0">Transform Your School Today</h2>
+                <p style="font-size: 1.5rem; opacity: 0.9; margin: 2rem 0;">Give your teachers the gift of time.<br/>Give your students the benefit of data-driven teaching.</p>
+                <div style="background: rgba(107,70,193,0.2); padding: 3rem; border-radius: 12px; border: 2px solid #6B46C1; max-width: 700px; margin: 3rem 0;">
+                    <h3 style="font-size: 1.8rem; color: #ffffff; margin-bottom: 1.5rem;">Next Steps</h3>
+                    <p style="font-size: 1.2rem; text-align: left; line-height: 2;">
+                        <strong>1.</strong> Schedule a personalized demo for your leadership team<br/>
+                        <strong>2.</strong> Pilot with your most innovative teachers<br/>
+                        <strong>3.</strong> Join the Founding Partner Program before December 6th<br/>
+                        <strong>4.</strong> Begin transformation in January 2026
+                    </p>
+                </div>
+                <div style="margin-top: 3rem;">
+                    <p style="font-size: 1.2rem; margin-bottom: 0.5rem; margin-top:-4rem">📧 info@mysmartteach.com</p>
+                    <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">📱 +44 7917 990 905</p>
+                    <p style="font-size: 1.2rem;">🌐 www.mysmartteach.com</p>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <div class="slide-counter"><span id="current-slide">1</span> / <span id="total-slides">15</span></div>
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">9</span>
+    </div>
+
     <div class="navigation">
         <button class="nav-btn" id="prev-btn" onclick="prevSlide()">← Previous</button>
         <button class="nav-btn" id="next-btn" onclick="nextSlide()">Next →</button>
@@ -288,6 +715,7 @@
         const slides = document.querySelectorAll('.slide');
         const totalSlides = slides.length;
         document.getElementById('total-slides').textContent = totalSlides;
+
         function showSlide(n) {
             slides.forEach(slide => slide.classList.remove('active'));
             currentSlide = (n + totalSlides) % totalSlides;
@@ -296,12 +724,25 @@
             document.getElementById('prev-btn').disabled = currentSlide === 0;
             document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
         }
-        function nextSlide() { if (currentSlide < totalSlides - 1) { showSlide(currentSlide + 1); } }
-        function prevSlide() { if (currentSlide > 0) { showSlide(currentSlide - 1); } }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) { showSlide(currentSlide + 1); }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) { showSlide(currentSlide - 1); }
+        }
+
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
-            else if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
         });
+
         showSlide(0);
     </script>
 </body>
